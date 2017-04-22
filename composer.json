@@ -13,13 +13,13 @@
         {
             "name": "Dmytro Dzyuba",
             "email": "1932@bk.ru",
-            "homepage": "https://hevyweb.github.io/hw.datepicker/"
+            "homepage": "https://hevyweb.github.io/web-icons/"
         }
     ],
     "support": {
         "email": "1932@bk.ru",
-        "issues": "https://github.com/hevyweb/hw.datepicker/issues",
-        "source": "https://github.com/hevyweb/hw.datepicker",
-        "docs": "https://github.com/hevyweb/hw.datepicker#hwdatepicker"
+        "issues": "https://github.com/hevyweb/web-icons/issues",
+        "source": "https://github.com/hevyweb/web-icons",
+        "docs": "https://github.com/hevyweb/web-icons#hwdatepicker"
     }
 }
