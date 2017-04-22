@@ -1,0 +1,25 @@
+{
+    "name": "hevyweb/web-icons",
+    "description": "Repository which allows to find available web icons to use it in you web application.",
+    "keywords": [
+        "web icnos",
+        "font icons",
+        "css",
+        "html"
+    ],
+    "homepage": "https://hevyweb.github.io/web-icons/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmytro Dzyuba",
+            "email": "1932@bk.ru",
+            "homepage": "https://hevyweb.github.io/hw.datepicker/"
+        }
+    ],
+    "support": {
+        "email": "1932@bk.ru",
+        "issues": "https://github.com/hevyweb/hw.datepicker/issues",
+        "source": "https://github.com/hevyweb/hw.datepicker",
+        "docs": "https://github.com/hevyweb/hw.datepicker#hwdatepicker"
+    }
+}
