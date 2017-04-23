@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="webIcons" ng-cloak>
+    <head>
+    <title>Web icons - a list of icons which are available by default in the standard fonts</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+    <meta name="keywords" content="icons, web, fonts, css, content, html, code"> 
+    <meta name="description" content="Repository which allows to find available web icons to use it in you web application." />
+    <meta name="author" content="Dmytro Dzyuba" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js" ></script>
+    <script type="text/javascript" src="assets/script.js" ></script>
+    <link href="assets/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div ng-controller="main">
+        <ul>
+            <li ng-click="showAll()">Show all</li>
+            <li ng-repeat="category in categories" ng-click="filterByCategory()">{{category}}</li>
+            <li ng-click="addNew()">Add new</li>
+        </ul>
+        <div class="icons">
+            <div class="category" ng-hide="true" ng-repeat="categories in category">
+                <div class="icon" ng-repeat="icon in icons | filter: {category: category}">{{icon.code}}</div>
+            </div>
+            <div class="uncategorized" ng-hide=""></div>
+        </div>
+    </div>
+</body>
+</html>
+    

@@ -1,0 +1,23 @@
+{
+  "name": "web-icons",
+  "title": "web icons from the standard fonts",
+  "description": "Repository which allows to find available web icons to use it in you web application.",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hevyweb/web-icons.git"
+  },
+  "dependencies": {
+      "angular": "1.6.4"
+  },
+  
+  "keywords": [
+    "web icnos",
+    "font icons",
+    "css",
+    "html"
+  ],
+  "author": "Dmytro Dzyuba <1932@bk.ru> (https://github.com/hevyweb)",
+  "license": "MIT",
+  "homepage": "https://hevyweb.github.io/web-icons/"
+}

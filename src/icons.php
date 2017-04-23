@@ -8,7 +8,7 @@ class Icons implements Controller {
     public function add(){
         $code = $_POST['code'];
         $keywords = $_POST['keywords'];
-        $categoryId = $_POST['category_id'];
+        $category = $_POST['category'];
         $fonts = $_POST['fonts'];
         var_dump($code, $keywords, $categoryId, $fonts);
     }
