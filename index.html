@@ -12,17 +12,43 @@
     <link href="assets/style.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-    <div ng-controller="main">
-        <ul>
-            <li ng-click="showAll()">Show all</li>
-            <li ng-repeat="category in categories" ng-click="filterByCategory()">{{category}}</li>
-            <li ng-click="addNew()">Add new</li>
-        </ul>
-        <div class="icons">
-            <div class="category" ng-hide="true" ng-repeat="categories in category">
-                <div class="icon" ng-repeat="icon in icons | filter: {category: category}">{{icon.code}}</div>
+    <div ng-controller="main" class="main">
+        <aside>
+            <div class="asideContainer">
+                <div class="logo">
+                    <img src="assets/images/ic_logo_mdpi.png" alt="logo" />
+                    <h1>Web icons</h1>
+                </div>
+                <div class="searchCategory">
+                    <input type="text" id="searchCategory" placeholder="Filter Category" role="search" ng-model="filterCategory">
+                </div>
+                <ul>
+                    <li ng-click="showAll()">Show all</li>
+                    <li ng-repeat="category in categories | filter : filterCategory" ng-click="filterByCategory()">{{category}}</li>
+                    <li ng-hide="true"><input type="text" ng-</li>
+                    <li ng-click="addNew()">Add new</li>
+                </ul>
             </div>
-            <div class="uncategorized" ng-hide=""></div>
+        </aside>
+        <div class="icons">
+            <div class="iconSearch">
+                <input type="text" id="iconSearch" placeholder="Search icon" />
+                <button>ok</button>
+            </div>
+            <div class="categories">
+                <div class="category" ng-hide="true" ng-repeat="categories in category">
+                    <div class="categoryHeader"><h2>{{category}}</h2></div>
+                    <div class="categoryBody">
+                        <div class="icon" ng-repeat="icon in icons | filter: {category: category}">{{icon.code}}</div>
+                    </div>
+                </div>
+                <div class="uncategorized category" ng-hide="">
+                    <div class="categoryHeader"><h2>Uncategorized</h2></div>
+                    <div class="categoryBody">
+                        <button id="loadNew" ng-click="loadIcons()">Load</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
