@@ -1,6 +1,6 @@
 <?php
 
-class Controller{
+interface Controller{
     public function get();
             
     public function add();

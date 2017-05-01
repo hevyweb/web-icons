@@ -25,9 +25,12 @@
                 <ul>
                     <li ng-click="showAll()">Show all</li>
                     <li ng-repeat="category in categories | filter : filterCategory" ng-click="filterByCategory()">{{category}}</li>
-                    <li ng-hide="true"><input type="text" ng-</li>
-                    <li ng-click="addNew()">Add new</li>
                 </ul>
+                <div class="addNew">
+                    <form ng-submit="addNewCategory(newCategory)" name="addNewCategoryForm">
+                    <input type="text" ng-model="newCategory" ng-required="true" placeholder="Add new">
+                    </form>
+                </div>
             </div>
         </aside>
         <div class="icons">

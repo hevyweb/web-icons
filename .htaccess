@@ -1,0 +1,4 @@
+Options +FollowSymLinks
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !web-icons/[index.html|main.php|]
+RewriteRule ^(.+)$ main.php?controller=$1 [L]

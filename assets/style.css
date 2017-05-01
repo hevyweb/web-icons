@@ -184,3 +184,40 @@ ul > li.active, ul > li:hover {
     background: #2E363F;
     margin: 10px 15px;
 }
+
+.addNew input{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: transparent none repeat scroll 0 0;
+    border-color: -moz-use-text-color -moz-use-text-color #28b779;
+    border-image: none;
+    border-style: none none solid;
+    border-width: 0 0 2px;
+    box-shadow: none;
+    color: #ccc;
+    height: 35px;
+    padding: 0 10px;
+    width: 100%;
+}
+
+.addNew input::placeholder{
+    font-style: italic;
+} 
+.addNew input::-webkit-input-placeholder{
+    font-style: italic;
+}
+.addNew input::-moz-placeholder{
+    font-style: italic;
+}
+.addNew input:-ms-input-placeholder{
+    font-style: italic;
+}
+.addNew input:-moz-placeholder{
+    font-style: italic;
+}
+
+.addNew{
+    padding: 0 10px;
+}
