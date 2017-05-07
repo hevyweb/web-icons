@@ -11,6 +11,8 @@ if (!empty($_GET['controller'])){
     $method = getMethodUponRequest();
     if (method_exists($controller, $method)){
         call_user_func(array($controller, $method));
+    } else {
+        throw new Exception('Page not found', 404);
     }
 }
 

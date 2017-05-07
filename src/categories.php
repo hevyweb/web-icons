@@ -10,9 +10,9 @@ class Categories implements Controller{
      * @throws Exception
      */
     private function loadContent(){
-        $file = __DIR__ . '/../data' . $this->file;
-        if (!is_file($file)){
-            $jsonString = file_get_contents($folder);        
+        $file = realpath(__DIR__ . '/../data/' . $this->file);
+        if (is_file($file)){
+            $jsonString = file_get_contents($file);        
             $content = json_decode($jsonString, true);
             if (is_null($content)){
                 throw new Exception('Can not load categories. Data file is damaged.');
@@ -23,12 +23,27 @@ class Categories implements Controller{
         }
     }
     
+    private function saveData($data){
+        $file = realpath(__DIR__ . '/../data/' . $this->file);
+        file_put_contents($file, json_encode($data));
+    }
+
+
     public function get(){
        
     }
             
     public function add(){
-        $category = $_POST['category'];
+        if (!empty($_POST['category'])){
+            $category = trim($_POST['category']);
+            $categories = $this->loadContent();
+            $categories[] = $category;
+            $categories = array_unique($categories);
+            sort($categories);
+            $this->saveData($categories);
+        } else {
+            throw new Exception('Category name should not be empty.');
+        }
     }
     
     public function edit(){

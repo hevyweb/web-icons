@@ -1,29 +1,68 @@
 var webIcons = angular.module('webIcons',  []);
 
-webIcons.service('categories', function(){
-    var url = location.href.substring(0, location.href.lastIndexOf('/'))+'/categories';
-    
-    this.categories = {
-        get: function(){
-            
-        },
-        add: function(newCategory){
-            $http.post(url, {
-                'category': newCategory
-            }).then(function(response){
-                console.log(response);
-            });
-        },
-        edit: function(){
-            
-        },
-        delete: function(){
-            
+webIcons.service('categoryService', function($http){
+    var url = location.href + 'categories';
+    var param = function(obj) {
+        var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+
+        for(name in obj) {
+            value = obj[name];
+
+            if(value instanceof Array) {
+                for(i=0; i<value.length; ++i) {
+                    subValue = value[i];
+                    fullSubName = name + '[' + i + ']';
+                    innerObj = {};
+                    innerObj[fullSubName] = subValue;
+                    query += param(innerObj) + '&';
+                }
+            }
+            else if(value instanceof Object) {
+                for(subName in value) {
+                    subValue = value[subName];
+                    fullSubName = name + '[' + subName + ']';
+                    innerObj = {};
+                    innerObj[fullSubName] = subValue;
+                    query += param(innerObj) + '&';
+                }
+            }
+            else if(value !== undefined && value !== null) {
+                query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+            }
         }
+
+        return query.length ? query.substr(0, query.length - 1) : query;
+    };
+
+  // Override $http service's default transformRequest
+    $http.defaults.transformRequest = [function(data) {
+        return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+    }];
+    
+
+    $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    
+    this.get = function(){
+
+    };
+        
+    this.add = function(newCategory){
+
+        $http.post(url, {
+            'category': newCategory
+        }).then(function(response){
+            console.log(response);
+        });
+    };
+    this.edit = function(){
+
+    };
+    this.delete = function(){
+
     };
 });
 
-webIcons.controller('main', function($scope, $http, categories){
+webIcons.controller('main', function($scope, $http, categoryService){
     $http.get('data/categories.json').then(function(response){
         $scope.categories = response.data;
     });
@@ -41,7 +80,7 @@ webIcons.controller('main', function($scope, $http, categories){
                 }
             }
             $scope.categories.push(newCategory);
-            console.log(categories);
+            categoryService.add(newCategory);
             document.forms['addNewCategoryForm'].reset();
         } else {
             this.error('Please enter category name.');
