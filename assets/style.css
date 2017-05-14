@@ -179,7 +179,6 @@ ul.edit > li:hover {
 }
 
 .icon{
-    float: left;
     font-size: 76px;
     height: 100px;
     line-height: 100px;
@@ -188,7 +187,7 @@ ul.edit > li:hover {
     width: 100px;
     color: #fff;
     background: #2E363F;
-    margin: 10px 15px;
+    position: relative;
 }
 
 .addNew input, li input{
@@ -268,4 +267,47 @@ button.delete{
     padding: 0;
     position: absolute;
     top: 0;
+}
+
+#categoryIcons:after {
+    display: block;
+    content: ' ';
+    clear: both;
+}
+
+.iconContainer{
+    position: relative;
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin: 10px 15px;
+    overflow: hidden;
+}
+
+.ignore{
+    background: #d93240 none repeat scroll 0 0;
+    border: 0 none;
+    bottom: -25px;
+    color: #fff;
+    left: 0;
+    padding: 3px 5px;
+    position: absolute;
+    transition: bottom 1s;
+    cursor: pointer;
+}
+
+.add{
+    background: #28b779 none repeat scroll 0 0;
+    border: 0 none;
+    bottom: -25px;
+    color: #fff;
+    padding: 3px 5px;
+    position: absolute;
+    right: 0;
+    transition: bottom .3s;
+    cursor: pointer;
+}
+
+.iconContainer:hover .add, .iconContainer:hover .ignore{
+    bottom: 0;
 }

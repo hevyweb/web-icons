@@ -12,7 +12,7 @@
     <link href="assets/style.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-    <div ng-controller="main" class="main" ng-init="editCat=false">
+    <div ng-controller="main" class="main" ng-init="editCat=false;newIcons=[]">
         <aside>
             <div class="asideContainer">
                 <div class="logo">
@@ -60,6 +60,13 @@
                 <div class="uncategorized category" ng-hide="">
                     <div class="categoryHeader"><h2>Uncategorized</h2></div>
                     <div class="categoryBody">
+                        <div id="categoryIcons">
+                            <div ng-repeat="newIcon in newIcons" class="iconContainer">
+                                <div class="icon" ng-bind-html=newIcon></div>
+                                <button class="ignore">Ignore</button>
+                                <button class="add">Add</button>
+                            </div>                            
+                        </div>
                         <button id="loadNew" ng-click="loadIcons()">Load</button>
                     </div>
                 </div>

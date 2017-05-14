@@ -51,7 +51,7 @@ webIcons.service('categoryService', function($http){
     };
 });
 
-webIcons.controller('main', function($scope, $http, categoryService){
+webIcons.controller('main', function($scope, $http, categoryService, $sce){
     $http.get('data/categories.json').then(function(response){
         $scope.categories = response.data;
     });
@@ -84,10 +84,9 @@ webIcons.controller('main', function($scope, $http, categoryService){
         alert('show all');
     };
     
-    $scope.loadIcons = function(iElement){
-        for(var n = 1; n <= 20; n++){
-            var div = angular.element('<div class="icon">&#' + n + ';</div>');
-            angular.element(document.querySelector('.categoryBody')).append(div);
+    $scope.loadIcons = function(){
+        for(var n = 1; n <= 100; n++){
+            $scope.newIcons.push($sce.trustAsHtml('&#' + n + ';'));
         }
     };
     
