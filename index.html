@@ -12,7 +12,7 @@
     <link href="assets/style.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-    <div ng-controller="main" class="main">
+    <div ng-controller="main" class="main" ng-init="editCat=false">
         <aside>
             <div class="asideContainer">
                 <div class="logo">
@@ -22,14 +22,26 @@
                 <div class="searchCategory">
                     <input type="text" id="searchCategory" placeholder="Filter Category" role="search" ng-model="filterCategory">
                 </div>
-                <ul>
-                    <li ng-click="showAll()">Show all</li>
-                    <li ng-repeat="category in categories | filter : filterCategory" ng-click="filterByCategory()">{{category}}</li>
+                <ul ng-class="{'edit': editCat}">
+                    <li ng-click="showAll()" ng-hide="editCat">Show all</li>
+                    <li ng-repeat="category in categories | filter : filterCategory">
+                        <button ng-click="deleteCategory($index)" class="delete" ng-show="editCat">&times;</button>
+                        <div ng-click="filterByCategory()" ng-hide="editCat">{{category}}</div>
+                        <input type="text" ng-required="true" ng-model=category ng-show="editCat" ng-change="changeCategories(category, $index)" value="{{category}}" >
+                    </li>
                 </ul>
-                <div class="addNew">
+                <div class="addNew" ng-hide="editCat">
                     <form ng-submit="addNewCategory(newCategory)" name="addNewCategoryForm">
                     <input type="text" ng-model="newCategory" ng-required="true" placeholder="Add new">
                     </form>
+                </div>
+                <div id="editCategories" ng-hide="editCat" ng-click="editCat=true; startEdition()">
+                    Edit categories
+                    <span> >></span>
+                </div>
+                <div id="completeEdit" ng-show="editCat" ng-click="editCat=false; completeEdition()">
+                    <span><< </span>
+                    Complete edition
                 </div>
             </div>
         </aside>

@@ -39,26 +39,15 @@ webIcons.service('categoryService', function($http){
         return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
     }];
     
-
     $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-    
-    this.get = function(){
-
-    };
+    $http.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
         
     this.add = function(newCategory){
-
-        $http.post(url, {
-            'category': newCategory
-        }).then(function(response){
-            console.log(response);
-        });
+        $http.post(url, {'category': newCategory});
     };
-    this.edit = function(){
-
-    };
-    this.delete = function(){
-
+    
+    this.edit = function(categories){
+        $http.put(url, JSON.stringify({'categories': categories}));
     };
 });
 
@@ -106,4 +95,21 @@ webIcons.controller('main', function($scope, $http, categoryService){
         alert(message);
     };
     
+    $scope.changeCategories = function(input, index) {
+        $scope.tempCategories[index] = input;
+    };
+    
+    $scope.completeEdition = function(){
+        $scope.categories = $scope.tempCategories;
+        categoryService.edit($scope.categories);        
+    };
+    
+    $scope.startEdition =  function(){
+        $scope.tempCategories = $scope.categories.concat([]);
+    };
+    
+    $scope.deleteCategory = function(index){
+        $scope.categories.splice(index,1);
+        $scope.tempCategories.splice(index,1);
+    };
 });

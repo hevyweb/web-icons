@@ -82,16 +82,22 @@ ul > li {
     border-bottom: 1px solid #1f262d;
     border-top: 1px solid #37414b;
     line-height: 35px;
-    padding-left: 20px;
+    padding: 0 20px;
     color: #ccc;
     cursor: pointer;
+    position: relative;
 }
 ul > li.active, ul > li:hover {
-    background-color: #27a9e3;
     border-bottom: 1px solid #27a9e3;
     border-top: 1px solid #27a9e3;
     background-color: #27a9e3;
     color: #fff;
+}
+
+ul.edit > li:hover {
+    background-color: transparent !important;
+    border-bottom: 1px solid #1f262d;
+    border-top: 1px solid #37414b;
 }
 
 .iconSearch{
@@ -185,7 +191,7 @@ ul > li.active, ul > li:hover {
     margin: 10px 15px;
 }
 
-.addNew input{
+.addNew input, li input{
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
@@ -198,8 +204,15 @@ ul > li.active, ul > li:hover {
     box-shadow: none;
     color: #ccc;
     height: 35px;
-    padding: 0 10px;
     width: 100%;
+}
+
+li input{
+    color: #FFCC5C;
+}
+
+.addNew input{
+    padding: 0 10px;
 }
 
 .addNew input::placeholder{
@@ -220,4 +233,39 @@ ul > li.active, ul > li:hover {
 
 .addNew{
     padding: 0 10px;
+}
+
+#editCategories, #completeEdit {
+    color: #ccc;
+    line-height: 36px;
+    padding-right: 10px;
+    text-align: right;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#completeEdit {
+    padding-left: 10px;
+    padding-right: 0;
+    text-align: left;
+}
+
+#editCategories span{
+    color: #28b779
+}
+
+#completeEdit span{
+    color: #D93240;
+}
+
+button.delete{
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: 0 none;
+    color: #d93240;
+    cursor: pointer;
+    height: 34px;
+    left: 1px;
+    padding: 0;
+    position: absolute;
+    top: 0;
 }

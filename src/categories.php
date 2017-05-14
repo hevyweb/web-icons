@@ -47,10 +47,15 @@ class Categories implements Controller{
     }
     
     public function edit(){
-        $this->add();
+        
+        $data = json_decode(html_entity_decode(file_get_contents("php://input")), true);
+        if (isset($data['categories'])){
+            sort($data['categories']);
+            $this->saveData($data['categories']);
+        }
     }
     
     public function delete(){
-        $category = $_POST['category'];
+        
     }
 }
