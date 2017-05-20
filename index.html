@@ -12,7 +12,7 @@
     <link href="assets/style.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-    <div ng-controller="main" class="main" ng-init="editCat=false;newIcons=[]">
+    <div ng-controller="main" class="main" ng-init="editCat=false;newIcons=[];currentCat=0">
         <aside>
             <div class="asideContainer">
                 <div class="logo">
@@ -23,11 +23,11 @@
                     <input type="text" id="searchCategory" placeholder="Filter Category" role="search" ng-model="filterCategory">
                 </div>
                 <ul ng-class="{'edit': editCat}">
-                    <li ng-click="showAll()" ng-hide="editCat">Show all</li>
-                    <li ng-repeat="category in categories | filter : filterCategory">
+                    <li ng-click="setCurrentCategory(0)" ng-hide="editCat" ng-class="currentCat==0?'current':''">Show all</li>
+                    <li ng-repeat="category in categories | filter : filterCategory" ng-class="currentCat===category.id ? 'current':''">
                         <button ng-click="deleteCategory($index)" class="delete" ng-show="editCat">&times;</button>
-                        <div ng-click="filterByCategory()" ng-hide="editCat">{{category}}</div>
-                        <input type="text" ng-required="true" ng-model=category ng-show="editCat" ng-change="changeCategories(category, $index)" value="{{category}}" >
+                        <div ng-click="setCurrentCategory(category.id)" ng-hide="editCat">{{category.name}}</div>
+                        <input type="text" ng-required="true" ng-model=category.name ng-show="editCat" ng-change="changeCategories(category, $index)" value="{{category.name}}" >
                     </li>
                 </ul>
                 <div class="addNew" ng-hide="editCat">
@@ -51,12 +51,6 @@
                 <button>ok</button>
             </div>
             <div class="categories">
-                <div class="category" ng-hide="true" ng-repeat="categories in category">
-                    <div class="categoryHeader"><h2>{{category}}</h2></div>
-                    <div class="categoryBody">
-                        <div class="icon" ng-repeat="icon in icons | filter: {category: category}">{{icon.code}}</div>
-                    </div>
-                </div>
                 <div class="uncategorized category" ng-hide="">
                     <div class="categoryHeader"><h2>Uncategorized</h2></div>
                     <div class="categoryBody">
@@ -68,6 +62,13 @@
                             </div>                            
                         </div>
                         <button id="loadNew" ng-click="loadIcons()">Load</button>
+                    </div>
+                </div>
+                <div class="category" ng-repeat="category in categories">
+                    <div class="categoryHeader"><h2>{{category.name}}</h2></div>
+                    <div class="categoryBody">
+                        <div class="icon" ng-repeat="icon in filteredIcons = (icons | filter: {category: category})">{{icon.code}}</div>
+                        <div ng-show="!filteredIcons.length" class="emptyCategory">Category is empty</div>
                     </div>
                 </div>
             </div>

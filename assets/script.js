@@ -42,12 +42,17 @@ webIcons.service('categoryService', function($http){
     $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     $http.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
         
-    this.add = function(newCategory){
-        $http.post(url, {'category': newCategory});
+    this.add = function(newCategory, $scope){
+        $http.post(url, {'category': newCategory}).then(function(responce){
+            $scope.categories.push({
+                'name': newCategory,
+                'id': responce.data
+            });
+        });
     };
     
     this.edit = function(categories){
-        $http.put(url, JSON.stringify({'categories': categories}));
+        $http.put(url, JSON.stringify(categories));
     };
 });
 
@@ -68,21 +73,16 @@ webIcons.controller('main', function($scope, $http, categoryService, $sce){
                     return;
                 }
             }
-            $scope.categories.push(newCategory);
-            categoryService.add(newCategory);
+            categoryService.add(newCategory, $scope);
             document.forms['addNewCategoryForm'].reset();
         } else {
             this.error('Please enter category name.');
         }
     };
     
-    $scope.filterByCategory = function(){
-       alert('pick category');
-    };
-    
-    $scope.showAll = function(){
-        alert('show all');
-    };
+        $scope.setCurrentCategory = function(currentCategory){
+        $scope.currentCat = currentCategory;
+    };    
     
     $scope.loadIcons = function(){
         for(var n = 1; n <= 100; n++){
@@ -100,7 +100,7 @@ webIcons.controller('main', function($scope, $http, categoryService, $sce){
     
     $scope.completeEdition = function(){
         $scope.categories = $scope.tempCategories;
-        categoryService.edit($scope.categories);        
+        categoryService.edit(angular.toJson($scope.categories));        
     };
     
     $scope.startEdition =  function(){

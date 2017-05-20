@@ -94,6 +94,20 @@ ul > li.active, ul > li:hover {
     color: #fff;
 }
 
+ul > li.current:after{
+    content: ' ';
+    width: 0;
+    height: 0;
+    border-right: 10px solid #eeeeee;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 0 none;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 8px;    
+}
+
 ul.edit > li:hover {
     background-color: transparent !important;
     border-bottom: 1px solid #1f262d;
@@ -130,6 +144,7 @@ ul.edit > li:hover {
     position: absolute;
     right: 11px;
     width: 44px;
+    top: 10px;
 }
 
 .categories {
@@ -191,19 +206,14 @@ ul.edit > li:hover {
 }
 
 .addNew input, li input{
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
     background: transparent none repeat scroll 0 0;
-    border-color: -moz-use-text-color -moz-use-text-color #28b779;
-    border-image: none;
-    border-style: none none solid;
-    border-width: 0 0 2px;
+    border: 0 none;
+    border-bottom: 2px solid #28b779;
     box-shadow: none;
     color: #ccc;
     height: 35px;
     width: 100%;
+    outline: 0 none;
 }
 
 li input{
@@ -310,4 +320,14 @@ button.delete{
 
 .iconContainer:hover .add, .iconContainer:hover .ignore{
     bottom: 0;
+}
+
+.category {
+    margin-bottom: 20px;
+    box-shadow: 2px 2px 1px 0px #ccc;
+}
+
+.emptyCategory{
+    text-align: center;
+    padding: 20px 0;
 }
