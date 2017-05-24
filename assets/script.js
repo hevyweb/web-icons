@@ -111,4 +111,28 @@ webIcons.controller('main', function($scope, $http, categoryService, $sce){
         $scope.categories.splice(index,1);
         $scope.tempCategories.splice(index,1);
     };
+    
+    $scope.ignore = function(charCode){
+        charCode = charCode.valueOf();console.log($scope.icons);
+        var code = parseInt(charCode.replace(/^\D+/g, ''));
+        $scope.newIcons.splice($scope.newIcons.indexOf(charCode), 1);
+        if ($scope.icons[0] == undefined){
+            $scope.icons[0] = [];
+        }
+        $scope.icons[0][code] = charCode;
+        var lastIcon = parseInt($scope.newIcons[$scope.newIcons.length -1].valueOf().replace(/^\D+/g, ''));
+        $scope.newIcons.push($sce.trustAsHtml('&#' + getNextIcon(lastIcon) + ';'));
+    };
+    
+    function getNextIcon(lastIcon){
+        do{
+            lastIcon++;
+            if ($scope.icons[0][lastIcon] == undefined){
+                return lastIcon;
+
+            }
+        } while (true)
+        
+    }
+    
 });

@@ -57,7 +57,7 @@
                         <div id="categoryIcons">
                             <div ng-repeat="newIcon in newIcons" class="iconContainer">
                                 <div class="icon" ng-bind-html=newIcon></div>
-                                <button class="ignore">Ignore</button>
+                                <button class="ignore" ng-click="ignore(newIcon)">Ignore</button>
                                 <button class="add">Add</button>
                             </div>                            
                         </div>
