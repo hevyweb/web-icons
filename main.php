@@ -8,26 +8,13 @@ spl_autoload_register();
 if (!empty($_GET['controller'])){
     $controllerName = ucfirst($_GET['controller']);
     $controller = new $controllerName();
-    $method = getMethodUponRequest();
-    if (method_exists($controller, $method)){
-        call_user_func(array($controller, $method));
-    } else {
-        throw new Exception('Page not found', 404);
+    if (!empty($_GET['action'])) {
+        $method = $_GET['action'];
+        if (method_exists($controller, $method)){
+            call_user_func(array($controller, $method));
+            exit;
+        }
     }
 }
 
-
-function getMethodUponRequest(){
-    switch (strtolower($_SERVER['REQUEST_METHOD'])){
-        case 'get':
-            return 'get';
-        case 'post':
-            return 'add';
-        case 'put':
-            return 'edit';
-        case 'delete':
-            return 'delete';
-        default:
-            throw new Exception('Page not found', 404);
-    }
-}
+throw new Exception('Page not found', 404);

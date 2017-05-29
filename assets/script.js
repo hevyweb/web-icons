@@ -1,49 +1,9 @@
 var webIcons = angular.module('webIcons',  []);
 
 webIcons.service('categoryService', function($http){
-    var url = location.href + 'categories';
-    var param = function(obj) {
-        var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
-
-        for(name in obj) {
-            value = obj[name];
-
-            if(value instanceof Array) {
-                for(i=0; i<value.length; ++i) {
-                    subValue = value[i];
-                    fullSubName = name + '[' + i + ']';
-                    innerObj = {};
-                    innerObj[fullSubName] = subValue;
-                    query += param(innerObj) + '&';
-                }
-            }
-            else if(value instanceof Object) {
-                for(subName in value) {
-                    subValue = value[subName];
-                    fullSubName = name + '[' + subName + ']';
-                    innerObj = {};
-                    innerObj[fullSubName] = subValue;
-                    query += param(innerObj) + '&';
-                }
-            }
-            else if(value !== undefined && value !== null) {
-                query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
-            }
-        }
-
-        return query.length ? query.substr(0, query.length - 1) : query;
-    };
-
-  // Override $http service's default transformRequest
-    $http.defaults.transformRequest = [function(data) {
-        return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
-    }];
-    
-    $http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-    $http.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-        
+    var url = location.href + 'main.php?controller=categories';
     this.add = function(newCategory, $scope){
-        $http.post(url, {'category': newCategory}).then(function(responce){
+        $http.post(url + '&action=add', {'category': newCategory}).then(function(responce){
             $scope.categories.push({
                 'name': newCategory,
                 'id': responce.data
@@ -52,17 +12,38 @@ webIcons.service('categoryService', function($http){
     };
     
     this.edit = function(categories){
+        $http.post(url + '&action=edit', JSON.stringify(categories));
+    };
+});
+
+webIcons.service('iconService', function($http){
+    var url = location.href + 'main.php?controller=icons';
+    this.ignore = function(code){
+        $http.post(url + '&action=delete', {'code': code});
+    };
+    
+    this.edit = function(categories){
         $http.put(url, JSON.stringify(categories));
     };
 });
 
-webIcons.controller('main', function($scope, $http, categoryService, $sce){
+webIcons.controller('main', function($scope, $http, categoryService, iconService, $sce){
     $http.get('data/categories.json').then(function(response){
         $scope.categories = response.data;
     });
     
     $http.get('data/icons.json').then(function(response){
         $scope.icons = response.data;
+        $scope.iconCodes = Array.concat.apply([], $scope.icons.map(function(category){
+            return Object.keys(category);
+        })).map(function(code){
+            return parseInt(code);
+        });
+        $scope.lastIconCode = 0;
+        while ($scope.iconCodes.indexOf($scope.lastIconCode)!=-1){
+            $scope.lastIconCode++; 
+        }
+         
     });
 
     $scope.addNewCategory = function(newCategory){
@@ -85,8 +66,12 @@ webIcons.controller('main', function($scope, $http, categoryService, $sce){
     };    
     
     $scope.loadIcons = function(){
-        for(var n = 1; n <= 100; n++){
-            $scope.newIcons.push($sce.trustAsHtml('&#' + n + ';'));
+        for(var n = 0; n < 100;){
+            if ($scope.iconCodes.indexOf($scope.lastIconCode) == -1){
+                $scope.newIcons.push($sce.trustAsHtml('&#' + $scope.lastIconCode + ';'));
+                n++;
+            }
+            $scope.lastIconCode++;
         }
     };
     
@@ -113,8 +98,8 @@ webIcons.controller('main', function($scope, $http, categoryService, $sce){
     };
     
     $scope.ignore = function(charCode){
-        charCode = charCode.valueOf();console.log($scope.icons);
-        var code = parseInt(charCode.replace(/^\D+/g, ''));
+        var code = parseInt(charCode.valueOf().replace(/^\D+/g, ''));
+        $scope.iconCodes.push(code);
         $scope.newIcons.splice($scope.newIcons.indexOf(charCode), 1);
         if ($scope.icons[0] == undefined){
             $scope.icons[0] = [];
@@ -122,6 +107,11 @@ webIcons.controller('main', function($scope, $http, categoryService, $sce){
         $scope.icons[0][code] = charCode;
         var lastIcon = parseInt($scope.newIcons[$scope.newIcons.length -1].valueOf().replace(/^\D+/g, ''));
         $scope.newIcons.push($sce.trustAsHtml('&#' + getNextIcon(lastIcon) + ';'));
+        iconService.ignore(code);
+    };
+    
+    $scope.pickIcon =  function(icon){
+        $scope.currentIcon = icon;
     };
     
     function getNextIcon(lastIcon){

@@ -11,8 +11,8 @@
     <script type="text/javascript" src="assets/script.js" ></script>
     <link href="assets/style.css" type="text/css" rel="stylesheet" />
 </head>
-<body>
-    <div ng-controller="main" class="main" ng-init="editCat=false;newIcons=[];currentCat=0">
+<body ng-controller="main" ng-init="editCat=false;newIcons=[];currentCat=0;currentIcon=''">
+    <div class="main">
         <aside>
             <div class="asideContainer">
                 <div class="logo">
@@ -57,8 +57,8 @@
                         <div id="categoryIcons">
                             <div ng-repeat="newIcon in newIcons" class="iconContainer">
                                 <div class="icon" ng-bind-html=newIcon></div>
-                                <button class="ignore" ng-click="ignore(newIcon)">Ignore</button>
-                                <button class="add">Add</button>
+                                <button class="ignore" ng-click="remove(newIcon); ignore(newIcon)">Ignore</button>
+                                <button class="add" ng-click="pickIcon(newIcon)">Add</button>
                             </div>                            
                         </div>
                         <button id="loadNew" ng-click="loadIcons()">Load</button>
@@ -70,6 +70,45 @@
                         <div class="icon" ng-repeat="icon in filteredIcons = (icons | filter: {category: category})">{{icon.code}}</div>
                         <div ng-show="!filteredIcons.length" class="emptyCategory">Category is empty</div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="veil" ng-class="(currentIcon.toString().length ? 'showVeil':'')" ng-click="currentIcon=''">
+        <div class="panel">
+            <button class="closeButton" ng-click="currentIcon=''">&times;</button>
+            <div class="panelTitle">Your adding new icon to the library</div>
+            <div class="panelBody">
+                <div class="iconsPerFont">
+                    <div class="font">
+                        <div class="fontTitle">Tahoma</div>
+                        <div class="icon tahoma" ng-bind-html=currentIcon></div>
+                    </div>
+                    <div class="font">
+                        <div class="fontTitle">Arial</div>
+                        <div class="icon arial" ng-bind-html=currentIcon></div>
+                    </div>
+                    <div class="font">
+                        <div class="fontTitle">Times New Roman</div>
+                        <div class="icon timesNewRoman" ng-bind-html=currentIcon></div>
+                    </div>
+                    <div class="font">
+                        <div class="fontTitle">Verdana</div>
+                        <div class="icon verdana" ng-bind-html=currentIcon></div>
+                    </div>
+                    <div class="font">
+                        <div class="fontTitle">Georgia</div>
+                        <div class="icon georgia" ng-bind-html=currentIcon></div>
+                    </div>
+                </div>
+                <div class="iconTags">
+                    <input type="text" name="tags" placeholder="Tags" >
+                </div>
+                <div class="iconSave">
+                    <select name="category">
+                        <option ng-repeat="category in categories" value=category.id>{{category.name}}</option>
+                    </select>
+                    <button>Save</button>
                 </div>
             </div>
         </div>
