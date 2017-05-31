@@ -23,7 +23,15 @@ webIcons.service('iconService', function($http){
     };
     
     this.edit = function(categories){
-        $http.put(url, JSON.stringify(categories));
+        $http.post(url, JSON.stringify(categories));
+    };
+    
+    this.add = function(code, category, tags){
+        $http.post(url + '&action=add', {
+            'code': code,
+            'category': category,
+            'tags': tags
+        });
     };
 });
 
@@ -114,10 +122,25 @@ webIcons.controller('main', function($scope, $http, categoryService, iconService
         $scope.currentIcon = icon;
     };
     
+    $scope.saveIcon = function(){
+        var code = parseInt($scope.currentIcon.valueOf().replace(/^\D+/g, ''));
+        var categoryId = $scope.iconCategory.valueOf();
+        if ($scope.icons[categoryId] === undefined){
+            $scope.icons[categoryId] = {};
+        }
+        $scope.icons[categoryId][code] = {
+            'html': $scope.currentIcon
+        };
+        $scope.iconCodes.push(code);
+        $scope.newIcons.splice($scope.newIcons.indexOf($scope.currentIcon), 1);
+        $scope.currentIcon = '';
+        //iconService.add(code, $scope.tags, $scope.iconCategory);
+    };
+    
     function getNextIcon(lastIcon){
         do{
             lastIcon++;
-            if ($scope.icons[0][lastIcon] == undefined){
+            if ($scope.icons[0][lastIcon] === undefined){
                 return lastIcon;
 
             }
